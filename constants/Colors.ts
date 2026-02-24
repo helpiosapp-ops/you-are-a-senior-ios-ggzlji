@@ -1,5 +1,6 @@
-const tintColorLight = "#0a7ea4";
-const tintColorDark = "#fff";
+
+const tintColorLight = "#00FF88";
+const tintColorDark = "#00FF88";
 
 export const zincColors = {
   50: "#fafafa",
@@ -15,11 +16,22 @@ export const zincColors = {
   950: "#09090b",
 };
 
+// Premium color palette
+export const premiumGreen = "#00FF88";
+export const premiumGreenDark = "#00CC6F";
+export const premiumGreenLight = "#33FFA3";
+export const premiumDark = "#0A0A0F";
+export const premiumDarkCard = "#13131A";
+export const premiumDarkBorder = "#1F1F28";
+export const premiumTextPrimary = "#FFFFFF";
+export const premiumTextSecondary = "#A0A0B0";
+export const premiumAccent = "#00FFFF";
+
 export const appleBlue = "#007AFF";
 export const appleRed = "#FF3B30";
-
 export const borderColor = "#A1A1AA80";
 export const appleGreen = "#34C759";
+
 export const Colors = {
   light: {
     text: "#11181C",

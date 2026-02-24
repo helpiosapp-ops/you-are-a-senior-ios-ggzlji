@@ -10,6 +10,8 @@ import * as Network from 'expo-network';
 import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import { IconSymbol } from "@/components/IconSymbol";
+import { LinearGradient } from 'expo-linear-gradient';
+import { premiumGreen, premiumDark, premiumDarkCard, premiumTextSecondary } from "@/constants/Colors";
 
 interface DeviceHealthData {
   battery: {
@@ -43,118 +45,157 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
   header: {
-    marginBottom: 30,
+    marginBottom: 40,
     alignItems: 'center',
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    fontSize: 36,
+    fontWeight: '800',
     marginBottom: 8,
+    letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 16,
-    opacity: 0.7,
+    fontSize: 15,
+    opacity: 0.6,
+    letterSpacing: 0.3,
   },
   scoreContainer: {
     alignItems: 'center',
     marginBottom: 30,
-    padding: 30,
-    borderRadius: 20,
+    padding: 40,
+    borderRadius: 24,
     borderWidth: 1,
+    overflow: 'hidden',
+  },
+  scoreGradient: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 0.1,
   },
   scoreCircle: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 140,
+    height: 140,
+    borderRadius: 70,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 15,
-    borderWidth: 8,
+    marginBottom: 20,
+    borderWidth: 6,
+    backgroundColor: 'rgba(0, 255, 136, 0.05)',
   },
   scoreText: {
-    fontSize: 48,
-    fontWeight: 'bold',
+    fontSize: 56,
+    fontWeight: '900',
+    letterSpacing: -2,
   },
   scoreLabel: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 20,
+    fontWeight: '700',
+    letterSpacing: 0.5,
   },
   scoreDescription: {
-    fontSize: 14,
-    opacity: 0.7,
+    fontSize: 13,
+    opacity: 0.5,
     textAlign: 'center',
-    marginTop: 8,
+    marginTop: 10,
+    letterSpacing: 0.2,
   },
   section: {
-    marginBottom: 25,
-    padding: 20,
-    borderRadius: 16,
+    marginBottom: 20,
+    padding: 24,
+    borderRadius: 20,
     borderWidth: 1,
+    overflow: 'hidden',
+  },
+  sectionGradient: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 0.03,
   },
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginLeft: 10,
+    fontSize: 18,
+    fontWeight: '700',
+    marginLeft: 12,
+    letterSpacing: 0.3,
   },
   metricRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 12,
-    paddingBottom: 12,
+    marginBottom: 16,
+    paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(128, 128, 128, 0.2)',
+    borderBottomColor: 'rgba(255, 255, 255, 0.05)',
   },
   metricLabel: {
-    fontSize: 15,
-    opacity: 0.7,
+    fontSize: 14,
+    opacity: 0.6,
+    letterSpacing: 0.2,
   },
   metricValue: {
-    fontSize: 15,
-    fontWeight: '600',
+    fontSize: 14,
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
   explanation: {
-    fontSize: 14,
-    opacity: 0.8,
+    fontSize: 13,
+    opacity: 0.5,
     lineHeight: 20,
-    marginTop: 8,
+    marginTop: 12,
+    letterSpacing: 0.2,
   },
   recommendationsSection: {
-    marginBottom: 25,
-    padding: 20,
-    borderRadius: 16,
+    marginBottom: 20,
+    padding: 24,
+    borderRadius: 20,
     borderWidth: 1,
+    overflow: 'hidden',
   },
   recommendationItem: {
     flexDirection: 'row',
-    marginBottom: 12,
-    paddingBottom: 12,
+    marginBottom: 16,
+    paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(128, 128, 128, 0.2)',
+    borderBottomColor: 'rgba(255, 255, 255, 0.05)',
   },
   recommendationText: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 13,
     lineHeight: 20,
-    marginLeft: 10,
+    marginLeft: 12,
+    letterSpacing: 0.2,
   },
   exportButton: {
     marginHorizontal: 20,
     marginBottom: 30,
-    padding: 18,
-    borderRadius: 12,
+    padding: 20,
+    borderRadius: 16,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
+    overflow: 'hidden',
+  },
+  exportButtonGradient: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   exportButtonText: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
     marginLeft: 10,
+    letterSpacing: 0.5,
   },
   loadingContainer: {
     flex: 1,
@@ -162,9 +203,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    marginTop: 15,
-    fontSize: 16,
-    opacity: 0.7,
+    marginTop: 20,
+    fontSize: 15,
+    opacity: 0.6,
+    letterSpacing: 0.3,
   },
 });
 
@@ -209,7 +251,7 @@ export default function HomeScreen() {
       }
       
       if (recommendations.length === 0) {
-        recommendations.push('Your device is in good health! All systems are functioning normally.');
+        recommendations.push('Your device is in excellent health! All systems are functioning optimally.');
       }
       
       let healthScore = 100;
@@ -287,8 +329,8 @@ export default function HomeScreen() {
   };
 
   const getHealthScoreColor = (score: number): string => {
-    if (score >= 90) return '#34C759';
-    if (score >= 70) return '#FF9500';
+    if (score >= 90) return premiumGreen;
+    if (score >= 70) return '#FFB800';
     return '#FF3B30';
   };
 
@@ -316,24 +358,27 @@ export default function HomeScreen() {
               body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
                 padding: 40px;
-                color: #333;
+                background: #0A0A0F;
+                color: #FFFFFF;
               }
               h1 {
-                color: #007AFF;
+                color: #00FF88;
                 font-size: 32px;
                 margin-bottom: 10px;
+                font-weight: 800;
               }
               .subtitle {
-                color: #666;
+                color: #A0A0B0;
                 font-size: 14px;
                 margin-bottom: 30px;
               }
               .score-section {
-                background: #f5f5f5;
+                background: #13131A;
                 padding: 30px;
-                border-radius: 12px;
+                border-radius: 16px;
                 text-align: center;
                 margin-bottom: 30px;
+                border: 1px solid #1F1F28;
               }
               .score {
                 font-size: 64px;
@@ -342,43 +387,50 @@ export default function HomeScreen() {
               }
               .score-label {
                 font-size: 24px;
-                color: #666;
+                color: #FFFFFF;
                 margin-top: 10px;
+                font-weight: 700;
               }
               .section {
                 margin-bottom: 30px;
+                background: #13131A;
+                padding: 24px;
+                border-radius: 16px;
+                border: 1px solid #1F1F28;
               }
               .section-title {
                 font-size: 20px;
-                font-weight: 600;
+                font-weight: 700;
                 margin-bottom: 15px;
-                color: #007AFF;
+                color: #00FF88;
               }
               .metric {
                 display: flex;
                 justify-content: space-between;
-                padding: 10px 0;
-                border-bottom: 1px solid #eee;
+                padding: 12px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
               }
               .metric-label {
-                color: #666;
+                color: #A0A0B0;
               }
               .metric-value {
-                font-weight: 600;
+                font-weight: 700;
+                color: #FFFFFF;
               }
               .recommendation {
-                background: #f9f9f9;
+                background: rgba(0, 255, 136, 0.05);
                 padding: 15px;
-                border-radius: 8px;
+                border-radius: 12px;
                 margin-bottom: 10px;
-                border-left: 4px solid #007AFF;
+                border-left: 4px solid #00FF88;
+                color: #FFFFFF;
               }
               .footer {
                 margin-top: 50px;
                 padding-top: 20px;
-                border-top: 1px solid #eee;
+                border-top: 1px solid #1F1F28;
                 text-align: center;
-                color: #999;
+                color: #A0A0B0;
                 font-size: 12px;
               }
             </style>
@@ -476,10 +528,14 @@ export default function HomeScreen() {
             title: "SilentAudit",
             headerLeft: () => <HeaderLeftButton />,
             headerRight: () => <HeaderRightButton />,
+            headerStyle: {
+              backgroundColor: premiumDark,
+            },
+            headerTintColor: premiumGreen,
           }}
         />
-        <View style={[styles.loadingContainer, { backgroundColor: colors.background }]}>
-          <ActivityIndicator size="large" color={colors.primary} />
+        <View style={[styles.loadingContainer, { backgroundColor: premiumDark }]}>
+          <ActivityIndicator size="large" color={premiumGreen} />
           <Text style={[styles.loadingText, { color: colors.text }]}>
             Scanning device health...
           </Text>
@@ -496,9 +552,13 @@ export default function HomeScreen() {
             title: "SilentAudit",
             headerLeft: () => <HeaderLeftButton />,
             headerRight: () => <HeaderRightButton />,
+            headerStyle: {
+              backgroundColor: premiumDark,
+            },
+            headerTintColor: premiumGreen,
           }}
         />
-        <View style={[styles.loadingContainer, { backgroundColor: colors.background }]}>
+        <View style={[styles.loadingContainer, { backgroundColor: premiumDark }]}>
           <Text style={[styles.loadingText, { color: colors.text }]}>
             Unable to load device health data
           </Text>
@@ -518,64 +578,80 @@ export default function HomeScreen() {
           title: "SilentAudit",
           headerLeft: () => <HeaderLeftButton />,
           headerRight: () => <HeaderRightButton />,
+          headerStyle: {
+            backgroundColor: premiumDark,
+          },
+          headerTintColor: premiumGreen,
         }}
       />
-      <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.container, { backgroundColor: premiumDark }]}>
         <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
           <View style={styles.header}>
-            <Text style={[styles.title, { color: colors.text }]}>Device Health</Text>
-            <Text style={[styles.subtitle, { color: colors.text }]}>
+            <Text style={[styles.title, { color: premiumGreen }]}>Device Health</Text>
+            <Text style={[styles.subtitle, { color: premiumTextSecondary }]}>
               Privacy-first insights about your device
             </Text>
           </View>
 
-          <View style={[styles.scoreContainer, { backgroundColor: colors.card, borderColor: colors.border }]}>
+          <View style={[styles.scoreContainer, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.2)' }]}>
+            <LinearGradient
+              colors={[premiumGreen, 'transparent']}
+              style={styles.scoreGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            />
             <View style={[styles.scoreCircle, { borderColor: healthScoreColor }]}>
               <Text style={[styles.scoreText, { color: healthScoreColor }]}>
                 {healthData.healthScore}
               </Text>
             </View>
-            <Text style={[styles.scoreLabel, { color: colors.text }]}>
+            <Text style={[styles.scoreLabel, { color: premiumGreen }]}>
               {healthScoreLabel}
             </Text>
-            <Text style={[styles.scoreDescription, { color: colors.text }]}>
+            <Text style={[styles.scoreDescription, { color: premiumTextSecondary }]}>
               Overall health score based on battery, network, and device status
             </Text>
           </View>
 
-          <View style={[styles.section, { backgroundColor: colors.card, borderColor: colors.border }]}>
+          <View style={[styles.section, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.1)' }]}>
+            <LinearGradient
+              colors={[premiumGreen, 'transparent']}
+              style={styles.sectionGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            />
             <View style={styles.sectionHeader}>
               <IconSymbol 
                 ios_icon_name="battery.100" 
                 android_material_icon_name="battery-full" 
                 size={24} 
-                color={colors.text} 
+                color={premiumGreen} 
               />
-              <Text style={[styles.sectionTitle, { color: colors.text }]}>Battery</Text>
+              <Text style={[styles.sectionTitle, { color: premiumGreen }]}>Battery</Text>
             </View>
             
             <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: colors.text }]}>Level</Text>
+              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Level</Text>
               <Text style={[styles.metricValue, { color: colors.text }]}>
                 {batteryPercentage}%
               </Text>
             </View>
             
             <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: colors.text }]}>State</Text>
+              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>State</Text>
               <Text style={[styles.metricValue, { color: colors.text }]}>
                 {healthData.battery.state}
               </Text>
             </View>
             
             <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: colors.text }]}>Low Power Mode</Text>
+              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Low Power Mode</Text>
               <Text style={[styles.metricValue, { color: colors.text }]}>
                 {healthData.battery.lowPowerMode ? 'Enabled' : 'Disabled'}
               </Text>
             </View>
             
-            <Text style={[styles.explanation, { color: colors.text }]}>
+            <Text style={[styles.explanation, { color: premiumTextSecondary }]}>
               Your battery is currently at {batteryPercentage}%. 
               {healthData.battery.state === 'Charging' 
                 ? ' Your device is charging and will reach full capacity soon.' 
@@ -585,33 +661,39 @@ export default function HomeScreen() {
             </Text>
           </View>
 
-          <View style={[styles.section, { backgroundColor: colors.card, borderColor: colors.border }]}>
+          <View style={[styles.section, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.1)' }]}>
+            <LinearGradient
+              colors={[premiumGreen, 'transparent']}
+              style={styles.sectionGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            />
             <View style={styles.sectionHeader}>
               <IconSymbol 
                 ios_icon_name="iphone" 
                 android_material_icon_name="phone-android" 
                 size={24} 
-                color={colors.text} 
+                color={premiumGreen} 
               />
-              <Text style={[styles.sectionTitle, { color: colors.text }]}>Device</Text>
+              <Text style={[styles.sectionTitle, { color: premiumGreen }]}>Device</Text>
             </View>
             
             <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: colors.text }]}>Model</Text>
+              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Model</Text>
               <Text style={[styles.metricValue, { color: colors.text }]}>
                 {healthData.device.modelName}
               </Text>
             </View>
             
             <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: colors.text }]}>OS</Text>
+              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>OS</Text>
               <Text style={[styles.metricValue, { color: colors.text }]}>
                 {healthData.device.osName} {healthData.device.osVersion}
               </Text>
             </View>
             
             <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: colors.text }]}>Memory</Text>
+              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Memory</Text>
               <Text style={[styles.metricValue, { color: colors.text }]}>
                 {formatMemory(healthData.device.totalMemory)}
               </Text>
@@ -619,14 +701,14 @@ export default function HomeScreen() {
             
             {healthData.device.deviceYearClass && (
               <View style={styles.metricRow}>
-                <Text style={[styles.metricLabel, { color: colors.text }]}>Year Class</Text>
+                <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Year Class</Text>
                 <Text style={[styles.metricValue, { color: colors.text }]}>
                   {healthData.device.deviceYearClass}
                 </Text>
               </View>
             )}
             
-            <Text style={[styles.explanation, { color: colors.text }]}>
+            <Text style={[styles.explanation, { color: premiumTextSecondary }]}>
               Your {healthData.device.modelName} is running {healthData.device.osName} {healthData.device.osVersion}. 
               {healthData.device.deviceYearClass 
                 ? ` This device is from the ${healthData.device.deviceYearClass} year class, indicating its performance capabilities.` 
@@ -634,54 +716,66 @@ export default function HomeScreen() {
             </Text>
           </View>
 
-          <View style={[styles.section, { backgroundColor: colors.card, borderColor: colors.border }]}>
+          <View style={[styles.section, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.1)' }]}>
+            <LinearGradient
+              colors={[premiumGreen, 'transparent']}
+              style={styles.sectionGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            />
             <View style={styles.sectionHeader}>
               <IconSymbol 
                 ios_icon_name="wifi" 
                 android_material_icon_name="wifi" 
                 size={24} 
-                color={colors.text} 
+                color={premiumGreen} 
               />
-              <Text style={[styles.sectionTitle, { color: colors.text }]}>Network</Text>
+              <Text style={[styles.sectionTitle, { color: premiumGreen }]}>Network</Text>
             </View>
             
             <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: colors.text }]}>Type</Text>
+              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Type</Text>
               <Text style={[styles.metricValue, { color: colors.text }]}>
                 {healthData.network.type}
               </Text>
             </View>
             
             <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: colors.text }]}>Connected</Text>
+              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Connected</Text>
               <Text style={[styles.metricValue, { color: colors.text }]}>
                 {healthData.network.isConnected ? 'Yes' : 'No'}
               </Text>
             </View>
             
             <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: colors.text }]}>Internet</Text>
+              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Internet</Text>
               <Text style={[styles.metricValue, { color: colors.text }]}>
                 {healthData.network.isInternetReachable ? 'Reachable' : 'Unreachable'}
               </Text>
             </View>
             
-            <Text style={[styles.explanation, { color: colors.text }]}>
+            <Text style={[styles.explanation, { color: premiumTextSecondary }]}>
               {healthData.network.isInternetReachable 
                 ? `You're connected via ${healthData.network.type} with internet access. Your connection is stable and ready for use.` 
                 : 'No internet connection detected. Check your Wi-Fi or cellular settings to restore connectivity.'}
             </Text>
           </View>
 
-          <View style={[styles.recommendationsSection, { backgroundColor: colors.card, borderColor: colors.border }]}>
+          <View style={[styles.recommendationsSection, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.1)' }]}>
+            <LinearGradient
+              colors={[premiumGreen, 'transparent']}
+              style={styles.sectionGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            />
             <View style={styles.sectionHeader}>
               <IconSymbol 
                 ios_icon_name="lightbulb" 
                 android_material_icon_name="lightbulb" 
                 size={24} 
-                color={colors.text} 
+                color={premiumGreen} 
               />
-              <Text style={[styles.sectionTitle, { color: colors.text }]}>Recommendations</Text>
+              <Text style={[styles.sectionTitle, { color: premiumGreen }]}>Recommendations</Text>
             </View>
             
             {healthData.recommendations.map((recommendation, index) => (
@@ -690,7 +784,7 @@ export default function HomeScreen() {
                   ios_icon_name="checkmark.circle" 
                   android_material_icon_name="check-circle" 
                   size={20} 
-                  color="#007AFF" 
+                  color={premiumGreen} 
                 />
                 <Text style={[styles.recommendationText, { color: colors.text }]}>
                   {recommendation}
@@ -701,21 +795,27 @@ export default function HomeScreen() {
         </ScrollView>
 
         <TouchableOpacity
-          style={[styles.exportButton, { backgroundColor: '#007AFF' }]}
+          style={styles.exportButton}
           onPress={generatePDFReport}
           disabled={exporting}
         >
+          <LinearGradient
+            colors={[premiumGreen, premiumGreen]}
+            style={styles.exportButtonGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          />
           {exporting ? (
-            <ActivityIndicator color="#FFFFFF" />
+            <ActivityIndicator color={premiumDark} />
           ) : (
             <>
               <IconSymbol 
                 ios_icon_name="square.and.arrow.up" 
                 android_material_icon_name="share" 
                 size={20} 
-                color="#FFFFFF" 
+                color={premiumDark} 
               />
-              <Text style={[styles.exportButtonText, { color: '#FFFFFF' }]}>
+              <Text style={[styles.exportButtonText, { color: premiumDark }]}>
                 Export Health Report
               </Text>
             </>

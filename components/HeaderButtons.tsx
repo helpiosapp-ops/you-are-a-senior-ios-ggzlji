@@ -1,36 +1,58 @@
-import React from "react";
+
 import { Pressable, StyleSheet, Alert } from "react-native";
-import { IconSymbol } from "@/components/IconSymbol";
 import { useTheme } from "@react-navigation/native";
+import React from "react";
+import { IconSymbol } from "@/components/IconSymbol";
+import { premiumGreen } from "@/constants/Colors";
+
+const styles = StyleSheet.create({
+  button: {
+    padding: 8,
+    marginHorizontal: 4,
+  },
+});
 
 export function HeaderRightButton() {
-  const theme = useTheme();
+  const { colors } = useTheme();
 
   return (
     <Pressable
-      onPress={() => Alert.alert("Not Implemented", "This feature is not implemented yet")}
-      style={styles.headerButtonContainer}
+      style={styles.button}
+      onPress={() => {
+        console.log('HeaderRightButton: Info button pressed');
+        Alert.alert(
+          "About SilentAudit",
+          "Privacy-first device health monitoring. All data is processed locally on your device. No information is sent to any server.",
+          [{ text: "OK" }]
+        );
+      }}
     >
-      <IconSymbol ios_icon_name="plus" android_material_icon_name="add" color={theme.colors.primary} />
+      <IconSymbol
+        ios_icon_name="info.circle"
+        android_material_icon_name="info"
+        size={24}
+        color={premiumGreen}
+      />
     </Pressable>
   );
 }
 
 export function HeaderLeftButton() {
-  const theme = useTheme();
+  const { colors } = useTheme();
 
   return (
     <Pressable
-      onPress={() => Alert.alert("Not Implemented", "This feature is not implemented yet")}
-      style={styles.headerButtonContainer}
+      style={styles.button}
+      onPress={() => {
+        console.log('HeaderLeftButton: Shield button pressed');
+      }}
     >
-      <IconSymbol ios_icon_name="gear" android_material_icon_name="settings" color={theme.colors.primary} />
+      <IconSymbol
+        ios_icon_name="shield.fill"
+        android_material_icon_name="security"
+        size={24}
+        color={premiumGreen}
+      />
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  headerButtonContainer: {
-    padding: 6,
-  },
-});

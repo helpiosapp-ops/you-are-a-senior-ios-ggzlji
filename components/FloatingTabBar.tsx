@@ -21,6 +21,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Href } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
+import { premiumGreen, premiumDark, premiumDarkCard, premiumTextSecondary } from '@/constants/Colors';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -49,29 +51,20 @@ export default function FloatingTabBar({
   const theme = useTheme();
   const animatedValue = useSharedValue(0);
 
-  // Improved active tab detection with better path matching
   const activeTabIndex = React.useMemo(() => {
-    // Find the best matching tab based on the current pathname
     let bestMatch = -1;
     let bestMatchScore = 0;
 
     tabs.forEach((tab, index) => {
       let score = 0;
 
-      // Exact route match gets highest score
       if (pathname === tab.route) {
         score = 100;
-      }
-      // Check if pathname starts with tab route (for nested routes)
-      else if (pathname.startsWith(tab.route as string)) {
+      } else if (pathname.startsWith(tab.route as string)) {
         score = 80;
-      }
-      // Check if pathname contains the tab name
-      else if (pathname.includes(tab.name)) {
+      } else if (pathname.includes(tab.name)) {
         score = 60;
-      }
-      // Check for partial matches in the route
-      else if (tab.route.includes('/(tabs)/') && pathname.includes(tab.route.split('/(tabs)/')[1])) {
+      } else if (tab.route.includes('/(tabs)/') && pathname.includes(tab.route.split('/(tabs)/')[1])) {
         score = 40;
       }
 
@@ -81,7 +74,6 @@ export default function FloatingTabBar({
       }
     });
 
-    // Default to first tab if no match found
     return bestMatch >= 0 ? bestMatch : 0;
   }, [pathname, tabs]);
 
@@ -102,7 +94,7 @@ export default function FloatingTabBar({
   const tabWidthPercent = ((100 / tabs.length) - 1).toFixed(2);
 
   const indicatorStyle = useAnimatedStyle(() => {
-    const tabWidth = (containerWidth - 8) / tabs.length; // Account for container padding (4px on each side)
+    const tabWidth = (containerWidth - 8) / tabs.length;
     return {
       transform: [
         {
@@ -116,40 +108,19 @@ export default function FloatingTabBar({
     };
   });
 
-  // Dynamic styles based on theme
   const dynamicStyles = {
     blurContainer: {
       ...styles.blurContainer,
-      borderWidth: 1.2,
-      borderColor: 'rgba(255, 255, 255, 1)',
-      ...Platform.select({
-        ios: {
-          backgroundColor: theme.dark
-            ? 'rgba(28, 28, 30, 0.8)'
-            : 'rgba(255, 255, 255, 0.6)',
-        },
-        android: {
-          backgroundColor: theme.dark
-            ? 'rgba(28, 28, 30, 0.95)'
-            : 'rgba(255, 255, 255, 0.6)',
-        },
-        web: {
-          backgroundColor: theme.dark
-            ? 'rgba(28, 28, 30, 0.95)'
-            : 'rgba(255, 255, 255, 0.6)',
-          backdropFilter: 'blur(10px)',
-        },
-      }),
+      borderWidth: 1,
+      borderColor: 'rgba(0, 255, 136, 0.2)',
+      backgroundColor: premiumDarkCard,
     },
     background: {
       ...styles.background,
     },
     indicator: {
       ...styles.indicator,
-      backgroundColor: theme.dark
-        ? 'rgba(255, 255, 255, 0.08)' // Subtle white overlay in dark mode
-        : 'rgba(0, 0, 0, 0.04)', // Subtle black overlay in light mode
-      width: `${tabWidthPercent}%` as `${number}%`, // Dynamic width based on number of tabs
+      width: `${tabWidthPercent}%` as `${number}%`,
     },
   };
 
@@ -162,46 +133,55 @@ export default function FloatingTabBar({
           marginBottom: bottomMargin ?? 20
         }
       ]}>
-        <BlurView
-          intensity={80}
-          style={[dynamicStyles.blurContainer, { borderRadius }]}
-        >
-          <View style={dynamicStyles.background} />
-          <Animated.View style={[dynamicStyles.indicator, indicatorStyle]} />
+        <View style={[dynamicStyles.blurContainer, { borderRadius }]}>
+          <LinearGradient
+            colors={['rgba(0, 255, 136, 0.05)', 'transparent']}
+            style={dynamicStyles.background}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          />
+          <Animated.View style={[dynamicStyles.indicator, indicatorStyle]}>
+            <LinearGradient
+              colors={['rgba(0, 255, 136, 0.15)', 'rgba(0, 255, 136, 0.05)']}
+              style={StyleSheet.absoluteFill}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            />
+          </Animated.View>
           <View style={styles.tabsContainer}>
             {tabs.map((tab, index) => {
               const isActive = activeTabIndex === index;
 
               return (
                 <React.Fragment key={index}>
-                <TouchableOpacity
-                  style={styles.tab}
-                  onPress={() => handleTabPress(tab.route)}
-                  activeOpacity={0.7}
-                >
-                  <View style={styles.tabContent}>
-                    <IconSymbol
-                      android_material_icon_name={tab.icon}
-                      ios_icon_name={tab.icon}
-                      size={24}
-                      color={isActive ? theme.colors.primary : (theme.dark ? '#98989D' : '#000000')}
-                    />
-                    <Text
-                      style={[
-                        styles.tabLabel,
-                        { color: theme.dark ? '#98989D' : '#8E8E93' },
-                        isActive && { color: theme.colors.primary, fontWeight: '600' },
-                      ]}
-                    >
-                      {tab.label}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.tab}
+                    onPress={() => handleTabPress(tab.route)}
+                    activeOpacity={0.7}
+                  >
+                    <View style={styles.tabContent}>
+                      <IconSymbol
+                        android_material_icon_name={tab.icon}
+                        ios_icon_name={tab.icon}
+                        size={24}
+                        color={isActive ? premiumGreen : premiumTextSecondary}
+                      />
+                      <Text
+                        style={[
+                          styles.tabLabel,
+                          { color: premiumTextSecondary },
+                          isActive && { color: premiumGreen, fontWeight: '700' },
+                        ]}
+                      >
+                        {tab.label}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                 </React.Fragment>
               );
             })}
           </View>
-        </BlurView>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -215,17 +195,17 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 1000,
     alignItems: 'center',
-    pointerEvents: 'box-none', // Allow touches to pass through to content below except for the tab bar itself
+    pointerEvents: 'box-none',
   },
   container: {
     marginHorizontal: 20,
     alignSelf: 'center',
     zIndex: 1001,
-    elevation: 10, // For Android shadow and layering
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    elevation: 10,
+    shadowColor: premiumGreen,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
   },
   blurContainer: {
     overflow: 'hidden',
@@ -239,7 +219,7 @@ const styles = StyleSheet.create({
     left: 2,
     bottom: 4,
     borderRadius: 27,
-    width: `${(100 / 2) - 1}%`, // Default for 2 tabs, will be overridden by dynamic styles
+    overflow: 'hidden',
   },
   tabsContainer: {
     flexDirection: 'row',
@@ -259,8 +239,9 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   tabLabel: {
-    fontSize: 9,
-    fontWeight: '500',
+    fontSize: 10,
+    fontWeight: '600',
     marginTop: 2,
+    letterSpacing: 0.3,
   },
 });
