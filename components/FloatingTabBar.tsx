@@ -111,8 +111,8 @@ export default function FloatingTabBar({
   const dynamicStyles = {
     blurContainer: {
       ...styles.blurContainer,
-      borderWidth: 1,
-      borderColor: 'rgba(0, 255, 136, 0.2)',
+      borderWidth: 2,
+      borderColor: 'rgba(0, 255, 136, 0.3)',
       backgroundColor: premiumDarkCard,
     },
     background: {
@@ -135,14 +135,14 @@ export default function FloatingTabBar({
       ]}>
         <View style={[dynamicStyles.blurContainer, { borderRadius }]}>
           <LinearGradient
-            colors={['rgba(0, 255, 136, 0.05)', 'transparent']}
+            colors={['rgba(0, 255, 136, 0.08)', 'transparent']}
             style={dynamicStyles.background}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
           />
           <Animated.View style={[dynamicStyles.indicator, indicatorStyle]}>
             <LinearGradient
-              colors={['rgba(0, 255, 136, 0.15)', 'rgba(0, 255, 136, 0.05)']}
+              colors={['rgba(0, 255, 136, 0.2)', 'rgba(0, 255, 136, 0.08)']}
               style={StyleSheet.absoluteFill}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     elevation: 10,
     shadowColor: premiumGreen,
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.4,
     shadowRadius: 12,
   },
   blurContainer: {
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   tabLabel: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '600',
     marginTop: 2,
     letterSpacing: 0.3,

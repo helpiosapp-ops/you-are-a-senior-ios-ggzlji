@@ -16,7 +16,7 @@ export const zincColors = {
   950: "#09090b",
 };
 
-// Premium color palette
+// Premium color palette - Enhanced for better visibility
 export const premiumGreen = "#00FF88";
 export const premiumGreenDark = "#00CC6F";
 export const premiumGreenLight = "#33FFA3";
@@ -24,7 +24,7 @@ export const premiumDark = "#0A0A0F";
 export const premiumDarkCard = "#13131A";
 export const premiumDarkBorder = "#1F1F28";
 export const premiumTextPrimary = "#FFFFFF";
-export const premiumTextSecondary = "#A0A0B0";
+export const premiumTextSecondary = "#C0C0D0"; // Increased from #A0A0B0 for better visibility
 export const premiumAccent = "#00FFFF";
 
 export const appleBlue = "#007AFF";
@@ -42,11 +42,11 @@ export const Colors = {
     tabIconSelected: tintColorLight,
   },
   dark: {
-    text: "#ECEDEE",
+    text: "#FFFFFF", // Changed from #ECEDEE for better visibility
     background: "#151718",
     tint: tintColorDark,
-    icon: "#9BA1A6",
-    tabIconDefault: "#9BA1A6",
+    icon: "#C0C0D0", // Increased from #9BA1A6 for better visibility
+    tabIconDefault: "#C0C0D0", // Increased from #9BA1A6 for better visibility
     tabIconSelected: tintColorDark,
   },
 };
