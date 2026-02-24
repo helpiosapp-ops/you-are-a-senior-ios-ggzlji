@@ -1,7 +1,8 @@
+
 {
   "expo": {
-    "name": "you-are-a-senior-ios",
-    "slug": "you-are-a-senior-ios",
+    "name": "SilentAudit",
+    "slug": "silentaudit",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/app-icon-jph.png",
@@ -10,11 +11,11 @@
     "splash": {
       "image": "./assets/images/app-icon-jph.png",
       "resizeMode": "contain",
-      "backgroundColor": "#000000"
+      "backgroundColor": "#0A0A0F"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.Natively",
+      "bundleIdentifier": "com.silentaudit.app",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -22,10 +23,10 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/app-icon-jph.png",
-        "backgroundColor": "#000000"
+        "backgroundColor": "#0A0A0F"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.Natively"
+      "package": "com.silentaudit.app"
     },
     "web": {
       "favicon": "./assets/images/final_quest_240x240.png",
@@ -36,7 +37,7 @@
       "expo-router",
       "expo-web-browser"
     ],
-    "scheme": "you-are-a-senior-ios",
+    "scheme": "silentaudit",
     "experiments": {
       "typedRoutes": true
     },
