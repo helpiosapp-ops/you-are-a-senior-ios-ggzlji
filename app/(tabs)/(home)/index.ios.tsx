@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, ScrollView, TouchableOpacity, ActivityIndicator
 import React, { useState, useEffect } from "react";
 import { Stack } from "expo-router";
 import { useTheme } from "@react-navigation/native";
-import { HeaderRightButton, HeaderLeftButton } from "@/components/HeaderButtons";
+import { HeaderRightButton } from "@/components/HeaderButtons";
 import * as Battery from 'expo-battery';
 import * as Device from 'expo-device';
 import * as Network from 'expo-network';
@@ -519,7 +519,6 @@ export default function HomeScreen() {
         <Stack.Screen
           options={{
             title: "SilentAudit",
-            headerLeft: () => <HeaderLeftButton />,
             headerRight: () => <HeaderRightButton />,
             headerStyle: {
               backgroundColor: premiumDark,
@@ -543,7 +542,6 @@ export default function HomeScreen() {
         <Stack.Screen
           options={{
             title: "SilentAudit",
-            headerLeft: () => <HeaderLeftButton />,
             headerRight: () => <HeaderRightButton />,
             headerStyle: {
               backgroundColor: premiumDark,
@@ -569,7 +567,6 @@ export default function HomeScreen() {
       <Stack.Screen
         options={{
           title: "SilentAudit",
-          headerLeft: () => <HeaderLeftButton />,
           headerRight: () => <HeaderRightButton />,
           headerStyle: {
             backgroundColor: premiumDark,
