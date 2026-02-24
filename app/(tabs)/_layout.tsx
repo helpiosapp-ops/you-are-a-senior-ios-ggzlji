@@ -16,12 +16,6 @@ export default function TabLayout() {
       icon: 'home',
       label: 'Home',
     },
-    {
-      name: 'profile',
-      route: '/(tabs)/profile',
-      icon: 'person',
-      label: 'Profile',
-    },
   ];
 
   // Calculate the total height of the floating tab bar including margins and safe area
@@ -40,7 +34,6 @@ export default function TabLayout() {
         }}
       >
         <Stack.Screen name="(home)" />
-        <Stack.Screen name="profile" />
       </Stack>
       <FloatingTabBar tabs={tabs} />
     </View>
