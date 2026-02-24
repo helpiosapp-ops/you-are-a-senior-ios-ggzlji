@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 20,
-    paddingBottom: 100,
+    paddingBottom: 40,
   },
   header: {
     marginBottom: 40,
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.2,
   },
   recommendationsSection: {
-    marginBottom: 20,
+    marginBottom: 30,
     padding: 24,
     borderRadius: 20,
     borderWidth: 2,
@@ -170,8 +170,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.2,
   },
   exportButton: {
-    marginHorizontal: 20,
-    marginBottom: 30,
+    marginBottom: 20,
     padding: 20,
     borderRadius: 16,
     alignItems: 'center',
@@ -578,215 +577,216 @@ export default function HomeScreen() {
           headerTintColor: premiumGreen,
         }}
       />
-      <View style={[styles.container, { backgroundColor: premiumDark }]}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
-          <View style={styles.header}>
-            <Text style={[styles.title, { color: premiumGreen }]}>Device Health</Text>
-            <Text style={[styles.subtitle, { color: premiumTextSecondary }]}>
-              Privacy-first insights about your device
+      <ScrollView 
+        style={[styles.container, { backgroundColor: premiumDark }]} 
+        contentContainerStyle={styles.scrollContent}
+      >
+        <View style={styles.header}>
+          <Text style={[styles.title, { color: premiumGreen }]}>Device Health</Text>
+          <Text style={[styles.subtitle, { color: premiumTextSecondary }]}>
+            Privacy-first insights about your device
+          </Text>
+        </View>
+
+        <View style={[styles.scoreContainer, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.3)' }]}>
+          <LinearGradient
+            colors={[premiumGreen, 'transparent']}
+            style={styles.scoreGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          />
+          <View style={[styles.scoreCircle, { borderColor: healthScoreColor }]}>
+            <Text style={[styles.scoreText, { color: healthScoreColor }]}>
+              {healthData.healthScore}
             </Text>
           </View>
+          <Text style={[styles.scoreLabel, { color: premiumGreen }]}>
+            {healthScoreLabel}
+          </Text>
+          <Text style={[styles.scoreDescription, { color: premiumTextSecondary }]}>
+            Overall health score based on battery, network, and device status
+          </Text>
+        </View>
 
-          <View style={[styles.scoreContainer, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.3)' }]}>
-            <LinearGradient
-              colors={[premiumGreen, 'transparent']}
-              style={styles.scoreGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
+        <View style={[styles.section, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.2)' }]}>
+          <LinearGradient
+            colors={[premiumGreen, 'transparent']}
+            style={styles.sectionGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          />
+          <View style={styles.sectionHeader}>
+            <IconSymbol 
+              ios_icon_name="battery.100" 
+              android_material_icon_name="battery-full" 
+              size={24} 
+              color={premiumGreen} 
             />
-            <View style={[styles.scoreCircle, { borderColor: healthScoreColor }]}>
-              <Text style={[styles.scoreText, { color: healthScoreColor }]}>
-                {healthData.healthScore}
+            <Text style={[styles.sectionTitle, { color: premiumGreen }]}>Battery</Text>
+          </View>
+          
+          <View style={styles.metricRow}>
+            <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Level</Text>
+            <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
+              {batteryPercentage}%
+            </Text>
+          </View>
+          
+          <View style={styles.metricRow}>
+            <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>State</Text>
+            <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
+              {healthData.battery.state}
+            </Text>
+          </View>
+          
+          <View style={styles.metricRow}>
+            <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Low Power Mode</Text>
+            <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
+              {healthData.battery.lowPowerMode ? 'Enabled' : 'Disabled'}
+            </Text>
+          </View>
+          
+          <Text style={[styles.explanation, { color: premiumTextSecondary }]}>
+            Your battery is currently at {batteryPercentage}%. 
+            {healthData.battery.state === 'Charging' 
+              ? ' Your device is charging and will reach full capacity soon.' 
+              : healthData.battery.lowPowerMode 
+                ? ' Low Power Mode is helping extend your battery life by reducing background activity.' 
+                : ' Monitor your battery usage to ensure optimal performance throughout the day.'}
+          </Text>
+        </View>
+
+        <View style={[styles.section, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.2)' }]}>
+          <LinearGradient
+            colors={[premiumGreen, 'transparent']}
+            style={styles.sectionGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          />
+          <View style={styles.sectionHeader}>
+            <IconSymbol 
+              ios_icon_name="iphone" 
+              android_material_icon_name="phone-android" 
+              size={24} 
+              color={premiumGreen} 
+            />
+            <Text style={[styles.sectionTitle, { color: premiumGreen }]}>Device</Text>
+          </View>
+          
+          <View style={styles.metricRow}>
+            <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Model</Text>
+            <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
+              {healthData.device.modelName}
+            </Text>
+          </View>
+          
+          <View style={styles.metricRow}>
+            <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>OS</Text>
+            <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
+              {healthData.device.osName} {healthData.device.osVersion}
+            </Text>
+          </View>
+          
+          <View style={styles.metricRow}>
+            <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Memory</Text>
+            <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
+              {formatMemory(healthData.device.totalMemory)}
+            </Text>
+          </View>
+          
+          {healthData.device.deviceYearClass && (
+            <View style={styles.metricRow}>
+              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Year Class</Text>
+              <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
+                {healthData.device.deviceYearClass}
               </Text>
             </View>
-            <Text style={[styles.scoreLabel, { color: premiumGreen }]}>
-              {healthScoreLabel}
-            </Text>
-            <Text style={[styles.scoreDescription, { color: premiumTextSecondary }]}>
-              Overall health score based on battery, network, and device status
+          )}
+          
+          <Text style={[styles.explanation, { color: premiumTextSecondary }]}>
+            Your {healthData.device.modelName} is running {healthData.device.osName} {healthData.device.osVersion}. 
+            {healthData.device.deviceYearClass 
+              ? ` This device is from the ${healthData.device.deviceYearClass} year class, indicating its performance capabilities.` 
+              : ' Keep your device updated for the best security and performance.'}
+          </Text>
+        </View>
+
+        <View style={[styles.section, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.2)' }]}>
+          <LinearGradient
+            colors={[premiumGreen, 'transparent']}
+            style={styles.sectionGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          />
+          <View style={styles.sectionHeader}>
+            <IconSymbol 
+              ios_icon_name="wifi" 
+              android_material_icon_name="wifi" 
+              size={24} 
+              color={premiumGreen} 
+            />
+            <Text style={[styles.sectionTitle, { color: premiumGreen }]}>Network</Text>
+          </View>
+          
+          <View style={styles.metricRow}>
+            <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Type</Text>
+            <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
+              {healthData.network.type}
             </Text>
           </View>
+          
+          <View style={styles.metricRow}>
+            <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Connected</Text>
+            <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
+              {healthData.network.isConnected ? 'Yes' : 'No'}
+            </Text>
+          </View>
+          
+          <View style={styles.metricRow}>
+            <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Internet</Text>
+            <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
+              {healthData.network.isInternetReachable ? 'Reachable' : 'Unreachable'}
+            </Text>
+          </View>
+          
+          <Text style={[styles.explanation, { color: premiumTextSecondary }]}>
+            {healthData.network.isInternetReachable 
+              ? `You're connected via ${healthData.network.type} with internet access. Your connection is stable and ready for use.` 
+              : 'No internet connection detected. Check your Wi-Fi or cellular settings to restore connectivity.'}
+          </Text>
+        </View>
 
-          <View style={[styles.section, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.2)' }]}>
-            <LinearGradient
-              colors={[premiumGreen, 'transparent']}
-              style={styles.sectionGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
+        <View style={[styles.recommendationsSection, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.2)' }]}>
+          <LinearGradient
+            colors={[premiumGreen, 'transparent']}
+            style={styles.sectionGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          />
+          <View style={styles.sectionHeader}>
+            <IconSymbol 
+              ios_icon_name="lightbulb" 
+              android_material_icon_name="lightbulb" 
+              size={24} 
+              color={premiumGreen} 
             />
-            <View style={styles.sectionHeader}>
+            <Text style={[styles.sectionTitle, { color: premiumGreen }]}>Recommendations</Text>
+          </View>
+          
+          {healthData.recommendations.map((recommendation, index) => (
+            <View key={index} style={styles.recommendationItem}>
               <IconSymbol 
-                ios_icon_name="battery.100" 
-                android_material_icon_name="battery-full" 
-                size={24} 
+                ios_icon_name="checkmark.circle" 
+                android_material_icon_name="check-circle" 
+                size={20} 
                 color={premiumGreen} 
               />
-              <Text style={[styles.sectionTitle, { color: premiumGreen }]}>Battery</Text>
-            </View>
-            
-            <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Level</Text>
-              <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
-                {batteryPercentage}%
+              <Text style={[styles.recommendationText, { color: premiumTextPrimary }]}>
+                {recommendation}
               </Text>
             </View>
-            
-            <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>State</Text>
-              <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
-                {healthData.battery.state}
-              </Text>
-            </View>
-            
-            <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Low Power Mode</Text>
-              <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
-                {healthData.battery.lowPowerMode ? 'Enabled' : 'Disabled'}
-              </Text>
-            </View>
-            
-            <Text style={[styles.explanation, { color: premiumTextSecondary }]}>
-              Your battery is currently at {batteryPercentage}%. 
-              {healthData.battery.state === 'Charging' 
-                ? ' Your device is charging and will reach full capacity soon.' 
-                : healthData.battery.lowPowerMode 
-                  ? ' Low Power Mode is helping extend your battery life by reducing background activity.' 
-                  : ' Monitor your battery usage to ensure optimal performance throughout the day.'}
-            </Text>
-          </View>
-
-          <View style={[styles.section, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.2)' }]}>
-            <LinearGradient
-              colors={[premiumGreen, 'transparent']}
-              style={styles.sectionGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-            />
-            <View style={styles.sectionHeader}>
-              <IconSymbol 
-                ios_icon_name="iphone" 
-                android_material_icon_name="phone-android" 
-                size={24} 
-                color={premiumGreen} 
-              />
-              <Text style={[styles.sectionTitle, { color: premiumGreen }]}>Device</Text>
-            </View>
-            
-            <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Model</Text>
-              <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
-                {healthData.device.modelName}
-              </Text>
-            </View>
-            
-            <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>OS</Text>
-              <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
-                {healthData.device.osName} {healthData.device.osVersion}
-              </Text>
-            </View>
-            
-            <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Memory</Text>
-              <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
-                {formatMemory(healthData.device.totalMemory)}
-              </Text>
-            </View>
-            
-            {healthData.device.deviceYearClass && (
-              <View style={styles.metricRow}>
-                <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Year Class</Text>
-                <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
-                  {healthData.device.deviceYearClass}
-                </Text>
-              </View>
-            )}
-            
-            <Text style={[styles.explanation, { color: premiumTextSecondary }]}>
-              Your {healthData.device.modelName} is running {healthData.device.osName} {healthData.device.osVersion}. 
-              {healthData.device.deviceYearClass 
-                ? ` This device is from the ${healthData.device.deviceYearClass} year class, indicating its performance capabilities.` 
-                : ' Keep your device updated for the best security and performance.'}
-            </Text>
-          </View>
-
-          <View style={[styles.section, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.2)' }]}>
-            <LinearGradient
-              colors={[premiumGreen, 'transparent']}
-              style={styles.sectionGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-            />
-            <View style={styles.sectionHeader}>
-              <IconSymbol 
-                ios_icon_name="wifi" 
-                android_material_icon_name="wifi" 
-                size={24} 
-                color={premiumGreen} 
-              />
-              <Text style={[styles.sectionTitle, { color: premiumGreen }]}>Network</Text>
-            </View>
-            
-            <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Type</Text>
-              <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
-                {healthData.network.type}
-              </Text>
-            </View>
-            
-            <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Connected</Text>
-              <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
-                {healthData.network.isConnected ? 'Yes' : 'No'}
-              </Text>
-            </View>
-            
-            <View style={styles.metricRow}>
-              <Text style={[styles.metricLabel, { color: premiumTextSecondary }]}>Internet</Text>
-              <Text style={[styles.metricValue, { color: premiumTextPrimary }]}>
-                {healthData.network.isInternetReachable ? 'Reachable' : 'Unreachable'}
-              </Text>
-            </View>
-            
-            <Text style={[styles.explanation, { color: premiumTextSecondary }]}>
-              {healthData.network.isInternetReachable 
-                ? `You're connected via ${healthData.network.type} with internet access. Your connection is stable and ready for use.` 
-                : 'No internet connection detected. Check your Wi-Fi or cellular settings to restore connectivity.'}
-            </Text>
-          </View>
-
-          <View style={[styles.recommendationsSection, { backgroundColor: premiumDarkCard, borderColor: 'rgba(0, 255, 136, 0.2)' }]}>
-            <LinearGradient
-              colors={[premiumGreen, 'transparent']}
-              style={styles.sectionGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-            />
-            <View style={styles.sectionHeader}>
-              <IconSymbol 
-                ios_icon_name="lightbulb" 
-                android_material_icon_name="lightbulb" 
-                size={24} 
-                color={premiumGreen} 
-              />
-              <Text style={[styles.sectionTitle, { color: premiumGreen }]}>Recommendations</Text>
-            </View>
-            
-            {healthData.recommendations.map((recommendation, index) => (
-              <View key={index} style={styles.recommendationItem}>
-                <IconSymbol 
-                  ios_icon_name="checkmark.circle" 
-                  android_material_icon_name="check-circle" 
-                  size={20} 
-                  color={premiumGreen} 
-                />
-                <Text style={[styles.recommendationText, { color: premiumTextPrimary }]}>
-                  {recommendation}
-                </Text>
-              </View>
-            ))}
-          </View>
-        </ScrollView>
+          ))}
+        </View>
 
         <TouchableOpacity
           style={styles.exportButton}
@@ -815,7 +815,7 @@ export default function HomeScreen() {
             </>
           )}
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </>
   );
 }
